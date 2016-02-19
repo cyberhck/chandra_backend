@@ -103,7 +103,7 @@ SQL;
 		{
 			$this->load_db();
 			$db = $this->db->get_db();
-			$token = bin2hex (openssl_random_pseudo_bytes (32)).".jpg";
+			$token = bin2hex (openssl_random_pseudo_bytes (32)).".png";
 			$sql = 'INSERT INTO images(user,image_id) SELECT user AS user,? AS image_id FROM access WHERE auth_token=?;';
 			$statement = $db->prepare($sql);
 			$statement->bind_param('ss', $token,$auth_token);
