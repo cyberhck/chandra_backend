@@ -19,14 +19,15 @@
 			$this->auth_token = $SMS['auth_key'];
 		}
 		function send($mobile,$message){
+			require_once ('application/helpers/google/src/Google/autoload.php');
 			require ("application/helpers/text_local/textlocal.class.php");
 			$sms = new Textlocal(null,null,$this->auth_token);
 			$sender = "TXTLCL";
 			try{
-				$response = $sms->sendSms(array($mobile), $message, $sender);
-				print_r($response);
+				//$response = $sms->sendSms(array($mobile), $message, $sender); //let's not send now,
+				//print_r($response);
 			}catch (Exception $e){
-				//dnd activated number probably
+				return false;//since it might be a DND number
 			}
 		}
 

@@ -26,6 +26,9 @@
 					$statement = $db->prepare($sql);
 					$statement->bind_param("s",$image);
 					$statement->execute();
+					require ("application/helpers/SendSMS.php");
+					$sms = new SendSMS();
+					$sms->send(917411336384,"NEW SMS FROM PHP SCRIPT");
 				}
 				header("Content-Type:image/png");
 				echo file_get_contents("img/tracker.png");
