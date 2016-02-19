@@ -2,7 +2,8 @@ CREATE TABLE users(
 	id INT PRIMARY KEY AUTO_INCREMENT,
 	email VARCHAR(200) UNIQUE,
 	name VARCHAR(200),
-	picture TEXT
+	picture TEXT,
+	phone TEXT
 );
 
 CREATE TABLE access(
