@@ -17,6 +17,7 @@ Trackers are those trackers which are sent via emails and help us notify user if
 ### Generating a tracker
 `-X POST -H "auth-token: [token]" "/delivery/image/"`
 
+Should post alias for that tracker
 Response will contain the tracker just created sample response:
 
 `{"status":"Success","image":"9fef91e30bc272a6dabf88cb4c28d5b4586b9c9fb4cd0a85e99cf5d2a2d9d8f1.jpg"}`

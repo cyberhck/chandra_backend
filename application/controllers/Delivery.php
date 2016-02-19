@@ -52,5 +52,5 @@
 			$REQUEST_URI=str_replace('/images/tracker/','',$_SERVER['REQUEST_URI']);
 			$this->load_model('Tracker');
 			$this->Tracker->serve($REQUEST_URI);
-		}
+			}
 	}
