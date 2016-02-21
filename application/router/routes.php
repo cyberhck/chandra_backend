@@ -3,5 +3,5 @@
 	header('Access-Control-Allow-Headers:Content-Type');
 	Route::post(['/user/login'=>'User@login',
 	             '/delivery/image' => 'Delivery@generate']);
-	Route::get(['/delivery/image'=>'Delivery@list_image']);
+	Route::get(['/delivery/image' => 'Delivery@list_image','/images/tracker' => 'Delivery@serve']);
 	Route::delete(['/delivery/image' => 'Delivery@delete_image']);

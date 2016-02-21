@@ -151,6 +151,7 @@ SQL;
 		public function list_image($auth_token){
 			$REQUEST_URI = $_SERVER['REQUEST_URI'];
 			$REQUEST_URI = str_replace('/delivery/image/','',$REQUEST_URI);
+			$REQUEST_URI = str_replace('/delivery/image','',$REQUEST_URI);
 			if(strlen($REQUEST_URI)!=0){
 				return $this->image_properties($auth_token,$REQUEST_URI);
 			}
