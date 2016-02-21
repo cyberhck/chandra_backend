@@ -8,7 +8,7 @@
 	{
 		/**
 		 * @return void displays result of request
-s		 */
+		 */
 		public function login(){
 			if(isset($_POST['access_token'])){
 				$access_token = $_POST['access_token'];

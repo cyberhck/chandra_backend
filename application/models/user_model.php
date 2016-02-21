@@ -119,10 +119,52 @@ SQL;
 			return $response;
 		}
 		public function delete_image($auth_token,$image_id){
-			//Todo
+			$sql = 'DELETE FROM images WHERE image_id = ? AND user IN(SELECT user FROM access WHERE auth_token=?)';
+			$this->load_db();
+			$db = $this->db->get_db();
+			$statement = $db->prepare($sql);
+			$statement->bind_param('ss',$image_id,$auth_token);
+
+			if($statement->execute()){
+				if($statement->affected_rows==0){
+					set_status_header(404);
+					$response['status'] = 'error';
+					$response['message'] = 'Image not found on server or already deleted';
+				}else{
+					set_status_header(200);
+					$response['status'] = 'Success';
+					$response['message'] = 'Image deleted';
+				}
+			}else{
+				set_status_header(500);
+				$response['status'] = 'Error';
+				$response['message'] = 'Failed Deleting from Database';
+			}
+			return $response;
+		}
+		private function image_properties($auth_token,$image_id){
+			//todo
+			set_status_header(501);
+			var_dump($auth_token);
+			die();
 		}
 		public function list_image($auth_token){
-			//todo
+			$REQUEST_URI = $_SERVER['REQUEST_URI'];
+			$REQUEST_URI = str_replace('/delivery/image/','',$REQUEST_URI);
+			if(strlen($REQUEST_URI)!=0){
+				return $this->image_properties($auth_token,$REQUEST_URI);
+			}
+			$this->load_db();
+			$db = $this->db->get_db();
+			$sql = "SELECT image_id as image FROM images WHERE user IN(SELECT user FROM access WHERE auth_token =?);";
+			$statement = $db->prepare($sql);
+			$statement->bind_param('s',$auth_token);
+			$statement->execute();
+			$result = $statement->get_result();
+			$response = [];
+			while ($row = $result->fetch_assoc()){
+				$response[]=$row;
+			}
+			return $response;
 		}
-
 	}
