@@ -1,4 +1,5 @@
 <?php
+	require_once ('status_header.php');
 	class Route
 	{
 		public static $routes;
@@ -13,7 +14,6 @@
 				$instance=new $controller;
 				$instance->$function();
 			}else if ($_SERVER['REQUEST_METHOD']=="GET"){
-				require("system/status_header.php");
 				set_status_header(404);
 				echo "404";
 			}
@@ -30,10 +30,22 @@
 				$instance=new $controller;
 				$instance->$function();
 			}else if ($_SERVER['REQUEST_METHOD']=="POST"){
-				require("system/status_header.php");
 				set_status_header(404);
 				echo "404";
 			}
 		}
+		public function load_model($value='')
+		{
+			require_once ('application/models/'.$value.'.php');
+			$this->$value =new $value;
+		}
+		public function load_db(){
+			require_once ('system/db.php');
+			$this->db=new db();
+		}
+		public function json_out($value)
+		{
+			header('Content-Type:applicatioin/json');
+			echo json_encode($value);
+		}
 	}
-?>

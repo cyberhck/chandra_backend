@@ -8,4 +8,3 @@
 			echo "replace with your action";
 		}
 	}
-?>
