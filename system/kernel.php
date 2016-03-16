@@ -6,6 +6,8 @@
 		public static $flag=false;
 		public static function get($routes){
 			$REQUEST_URI=$_SERVER['REQUEST_URI'];
+			$REQUEST_URI=str_replace('index.php/', '', $REQUEST_URI);
+			$REQUEST_URI=explode("?", $REQUEST_URI)[0];
 			if($routes[$REQUEST_URI] && $_SERVER['REQUEST_METHOD']=="GET"){
 				$destination=$routes[$REQUEST_URI];
 				$controller=explode('@', $destination)[0];
@@ -21,6 +23,7 @@
 
 		public static function post($routes){
 			$REQUEST_URI=$_SERVER['REQUEST_URI'];
+			$REQUEST_URI=str_replace('index.php/', '', $REQUEST_URI);
 			$REQUEST_URI=explode("?", $REQUEST_URI)[0];
 			if($routes[$REQUEST_URI] && $_SERVER['REQUEST_METHOD']=="POST"){
 				$destination=$routes[$REQUEST_URI];
