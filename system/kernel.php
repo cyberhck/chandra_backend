@@ -74,6 +74,20 @@
 				echo "404";
 			}
 		}
+		public static function delete($routes){
+			$data = self::framework_check_route($routes);
+			if($data && $_SERVER['REQUEST_METHOD']=="DELETE"){
+				$destination=$routes[$data];
+				$controller = explode('@', $destination)[0];
+				$function = explode('@', $destination)[1];
+				require_once("application/controllers/{$controller}.php");
+				$instance=new $controller;
+				$instance->$function();
+			}else if ($_SERVER['REQUEST_METHOD']=="DELETE"){
+				set_status_header(404);
+				echo "404";
+			}
+		}
 
 		/**
 		 * @param string $value model to load
