@@ -1,6 +1,14 @@
 <?php
+
+	/**
+	 * Class User
+	 * Responsible for user related operations
+	 */
 	class User extends Route
 	{
+		/**
+		 * @return void displays result of request
+s		 */
 		public function login(){
 			if(isset($_POST['access_token'])){
 				$access_token = $_POST['access_token'];
@@ -19,14 +27,7 @@
 			$data['message']='GET';
 			$this->load_model('user_model');
 			$result = $this->user_model->test_model();
-			//die();
 			set_status_header(200);
 			$this->json_out($result);
-		}
-		public function test()
-		{
-			$data['status']="OK";
-			$data['message']="TEST";
-			json_out($data);
 		}
 	}

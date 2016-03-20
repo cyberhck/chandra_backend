@@ -1,13 +1,25 @@
 <?php
 	require_once ('status_header.php');
+
+	/**
+	 * Class Route
+	 */
 	class Route
 	{
 		public static $routes;
 		public static $flag=false;
-		private static function framework_check_route($routes){
+
+		/**
+		 * @param $routes
+		 *
+		 * @return bool|string false if 404 else action on where to send incoming request
+		 */
+		private static function framework_check_route(&$routes){
 			$REQUEST_URI = $_SERVER['REQUEST_URI'];
 			if($REQUEST_URI == '/'){
-				die("index page");
+				$REQUEST = 'Welcome@index';
+				$routes['/']  = $REQUEST;
+				return '/';
 			}
 			if(substr($REQUEST_URI, strlen($REQUEST_URI)-1,1) == '/'){
 				$REQUEST_URI = substr($REQUEST_URI, 0, strlen($REQUEST_URI)-1);
@@ -24,6 +36,11 @@
 				return false;
 			}
 		}
+
+		/**
+		 * @param $routes array of routes
+		 * Handles GET requests
+		 */
 		public static function get($routes){
 			$data = self::framework_check_route($routes);
 			if($data && $_SERVER['REQUEST_METHOD']=="GET"){
@@ -38,6 +55,10 @@
 				echo "404";
 			}
 		}
+		/**
+		 * @param $routes array of routes
+		 * Handles POST requests
+		 */
 
 		public static function post($routes){
 			$data = self::framework_check_route($routes);
@@ -53,18 +74,32 @@
 				echo "404";
 			}
 		}
+
+		/**
+		 * @param string $value model to load
+		 * Loads model to current framework
+		 */
 		public function load_model($value='')
 		{
 			require_once ('application/models/'.$value.'.php');
 			$this->$value =new $value;
 		}
+
+		/**
+		 * loads database to current framework
+		 */
 		public function load_db(){
 			require_once ('system/db.php');
 			$this->db=new db();
 		}
+
+		/**
+		 * @param $value array
+		 * outputs json encoded representation for array provided
+		 */
 		public function json_out($value)
 		{
-			header('Content-Type:applicatioin/json');
+			header('Content-Type:application/json');
 			echo json_encode($value);
 		}
 	}

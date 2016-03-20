@@ -1,5 +1,10 @@
 <?php
 if(!defined('set_status_header')){
+	/**
+	 * @param int    $code
+	 * @param string $text
+	 * Sets status header
+	 */
 	function set_status_header($code = 200, $text = '')
 	{
 		if (empty($text))
