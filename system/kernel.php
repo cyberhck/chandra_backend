@@ -6,13 +6,19 @@
 		public static $flag=false;
 		private static function framework_check_route($routes){
 			$REQUEST_URI = $_SERVER['REQUEST_URI'];
+			if($REQUEST_URI == '/'){
+				die("index page");
+			}
 			if(substr($REQUEST_URI, strlen($REQUEST_URI)-1,1) == '/'){
 				$REQUEST_URI = substr($REQUEST_URI, 0, strlen($REQUEST_URI)-1);
 			}
 			$REQUEST_URI = explode('/', $REQUEST_URI);
+			if(count($REQUEST_URI)<3){
+				return false;
+			}
 			$REQUEST = [$REQUEST_URI[0],$REQUEST_URI[1],$REQUEST_URI[2]];
 			$REQUEST = implode('/', $REQUEST);
-			if($routes[$REQUEST]){
+			if(isset($routes[$REQUEST])){
 				return $REQUEST;
 			}else{
 				return false;
