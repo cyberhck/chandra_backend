@@ -10,7 +10,7 @@ class db
 		
 	}
 	private function connect(){
-		require_once('application/config/database.php');
+		require('application/config/database.php');
 		$config = $db[ENVIRONMENT];
 		$conn = new mysqli($config['host'], $config['username'], $config['password'], $config['name']);
 		$this->conn = $conn;
@@ -24,5 +24,19 @@ class db
 		$result = $statement->get_result();
 		//$result = $this->conn->query($sql);
 		return $result;
+	}
+	public function findOne($table,$id)
+	{
+		$this->connect();
+		$statement = $this->conn->prepare("SELECT * FROM $table WHERE id = ?");
+		$statement->bind_param("s",$id);
+		$statement->execute();
+		$result = $statement->get_result();
+		return $result;
+	}
+	public function get_db()
+	{
+		$this->connect();
+		return $this->conn;
 	}
 }

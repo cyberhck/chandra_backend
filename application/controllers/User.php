@@ -3,25 +3,14 @@
 	{
 		public function login(){
 			if(isset($_POST['access_token'])){
-				require_once('application/config/config.php');
 				$access_token = $_POST['access_token'];
-				require_once 'application/helpers/google/src/Google/autoload.php';
-				$client = new Google_Client();
-				$client->setApplicationName("GlobeMail");
-				$client->setDeveloperKey("AIzaSyATML0RjA6cHOpSKEGLLsodbufOy88YCr0");
-				$ticket = $client->verifyIdToken($access_token);
-				if ($ticket) {
-					$data = $ticket->getAttributes()['payload'];
-					var_dump($data);
-					$email = $data['email'];
-					$name = $data['name'];
-					$picture = $data['picture'];
-				}else{
-
-				}
+				$this->load_model('user_model');
+				$response = $this->user_model->check_login($access_token);
+				$this->json_out($response);
 			}else{
 				set_status_header(400);
-				$result['error'] = 'Bad request';
+				$result['status'] = 'Error';
+				$result['error'] = 'access_token not sent. Please refer to documentation';
 				$this->json_out($result);
 			}
 		}
