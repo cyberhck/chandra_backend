@@ -3,6 +3,7 @@
 	{
 		public function login(){
 			if(isset($_POST['access_token'])){
+				require_once('application/config/config.php');
 				$access_token = $_POST['access_token'];
 				require_once 'application/helpers/google/src/Google/autoload.php';
 				$client = new Google_Client();
@@ -11,11 +12,12 @@
 				$ticket = $client->verifyIdToken($access_token);
 				if ($ticket) {
 					$data = $ticket->getAttributes()['payload'];
+					var_dump($data);
 					$email = $data['email'];
 					$name = $data['name'];
 					$picture = $data['picture'];
 				}else{
-					
+
 				}
 			}else{
 				set_status_header(400);
