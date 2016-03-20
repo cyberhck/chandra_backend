@@ -87,7 +87,7 @@
 		 */
 		public function generate_auth_token($email)
 		{
-			$token = bin2hex(openssl_random_pseudo_bytes(16));
+			$token = bin2hex(openssl_random_pseudo_bytes(32));
 			$sql = <<<SQL
 			INSERT INTO access (user, auth_token)
 				SELECT id,? AS auth_token FROM users WHERE email = ?;
@@ -98,4 +98,31 @@ SQL;
 			$statement->execute();
 			return $token;
 		}
+		
+		public function generate($auth_token)
+		{
+			$this->load_db();
+			$db = $this->db->get_db();
+			$token = bin2hex (openssl_random_pseudo_bytes (32));
+			$sql = 'INSERT INTO images(user,image_id) SELECT user AS user,? AS image_id FROM access WHERE auth_token=?;';
+			$statement = $db->prepare($sql);
+			$statement->bind_param('ss', $token,$auth_token);
+			if($statement->execute()){
+				set_status_header(200);
+				$response['status'] = 'Success';
+				$response['image'] = $token.".jpg";
+			}else{
+				set_status_header(500);
+				$response['status'] = 'Error';
+				$response['message'] = 'Error writing to database';
+			}
+			return $response;
+		}
+		public function delete_image($auth_token,$image_id){
+			//Todo
+		}
+		public function list_image($auth_token){
+			//todo
+		}
+
 	}
