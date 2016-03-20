@@ -4,14 +4,26 @@
 	{
 		public static $routes;
 		public static $flag=false;
+		private static function framework_check_route($routes){
+			$REQUEST_URI = $_SERVER['REQUEST_URI'];
+			if(substr($REQUEST_URI, strlen($REQUEST_URI)-1,1) == '/'){
+				$REQUEST_URI = substr($REQUEST_URI, 0, strlen($REQUEST_URI)-1);
+			}
+			$REQUEST_URI = explode('/', $REQUEST_URI);
+			$REQUEST = [$REQUEST_URI[0],$REQUEST_URI[1],$REQUEST_URI[2]];
+			$REQUEST = implode('/', $REQUEST);
+			if($routes[$REQUEST]){
+				return $REQUEST;
+			}else{
+				return false;
+			}
+		}
 		public static function get($routes){
-			$REQUEST_URI=$_SERVER['REQUEST_URI'];
-			$REQUEST_URI=str_replace('index.php/', '', $REQUEST_URI);
-			$REQUEST_URI=explode("?", $REQUEST_URI)[0];
-			if($routes[$REQUEST_URI] && $_SERVER['REQUEST_METHOD']=="GET"){
-				$destination=$routes[$REQUEST_URI];
-				$controller=explode('@', $destination)[0];
-				$function=explode('@', $destination)[1];
+			$data = self::framework_check_route($routes);
+			if($data && $_SERVER['REQUEST_METHOD']=="GET"){
+				$destination=$routes[$data];
+				$controller = explode('@', $destination)[0];
+				$function = explode('@', $destination)[1];
 				require_once("application/controllers/{$controller}.php");
 				$instance=new $controller;
 				$instance->$function();
@@ -22,13 +34,11 @@
 		}
 
 		public static function post($routes){
-			$REQUEST_URI=$_SERVER['REQUEST_URI'];
-			$REQUEST_URI=str_replace('index.php/', '', $REQUEST_URI);
-			$REQUEST_URI=explode("?", $REQUEST_URI)[0];
-			if($routes[$REQUEST_URI] && $_SERVER['REQUEST_METHOD']=="POST"){
-				$destination=$routes[$REQUEST_URI];
-				$controller=explode('@', $destination)[0];
-				$function=explode('@', $destination)[1];
+			$data = self::framework_check_route($routes);
+			if($data && $_SERVER['REQUEST_METHOD']=="POST"){
+				$destination=$routes[$data];
+				$controller = explode('@', $destination)[0];
+				$function = explode('@', $destination)[1];
 				require_once("application/controllers/{$controller}.php");
 				$instance=new $controller;
 				$instance->$function();
