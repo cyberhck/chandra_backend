@@ -53,7 +53,7 @@
 		}
 
 		/**
-		 * @return database to database
+		 * @return mysqli_driver
 		 */
 		public function get_db()
 		{

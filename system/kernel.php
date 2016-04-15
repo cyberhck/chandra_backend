@@ -6,9 +6,12 @@
 	 */
 	class Route
 	{
+		/**
+		 * @var $routes
+		 */
 		public static $routes;
 		public static $flag=false;
-
+		public $db;
 		/**
 		 * @param $routes
 		 *
@@ -96,11 +99,12 @@
 		public function load_model($value='')
 		{
 			require_once ('application/models/'.$value.'.php');
-			$this->$value =new $value;
+			$this->$value = new $value;
 		}
 
 		/**
 		 * loads database to current framework
+		 *
 		 */
 		public function load_db(){
 			require_once ('system/db.php');
