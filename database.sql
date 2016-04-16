@@ -17,13 +17,7 @@ CREATE TABLE images(
 	user INT,
 	image_id VARCHAR(255) UNIQUE,
 	placeholder VARCHAR(255),
-	CONSTRAINT FOREIGN KEY(user) REFERENCES users(id)
-);
-
-CREATE TABLE images_info(
-	id INT PRIMARY KEY AUTO_INCREMENT,
-	image INT,
 	delivery_status ENUM('0','1') DEFAULT '0',
 	delivery_time VARCHAR(255),
-	CONSTRAINT FOREIGN KEY(image) REFERENCES images(id)
+	CONSTRAINT FOREIGN KEY(user) REFERENCES users(id)
 );
