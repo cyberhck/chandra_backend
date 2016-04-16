@@ -8,6 +8,7 @@
 	{
 		/**
 		 * @var $routes
+		 * @property $db db
 		 */
 		public static $routes;
 		public static $flag=false;

@@ -5,7 +5,7 @@
 		{
 			if($this->check()){
 				$this->load_model('user_model');
-				$response = $this->user_model->generate($_SERVER['HTTP_AUTH_TOKEN']);
+				$response = $this->user_model->generate($_SERVER['HTTP_AUTH_TOKEN'],$_POST['placeholder']);
 				$this->json_out($response);
 			}
 		}

@@ -27,11 +27,13 @@
 
 		/**
 		 * @param $access_token token from Google's login API
-		 *
 		 * @return array with login data
 		 */
 		public function check_login($access_token)
 		{
+			/**
+			 * @var $db mysqli
+			 */
 			require_once('application/config/config.php');
 			require_once ('application/helpers/google/src/Google/autoload.php');
 			$client = new Google_Client();
@@ -87,6 +89,9 @@
 		 */
 		public function generate_auth_token($email)
 		{
+			/**
+			 * @var $db mysqli
+			 */
 			$token = bin2hex(openssl_random_pseudo_bytes(32));
 			$sql = <<<SQL
 			INSERT INTO access (user, auth_token)
@@ -99,14 +104,17 @@ SQL;
 			return $token;
 		}
 		
-		public function generate($auth_token)
+		public function generate($auth_token,$placeholder='')
 		{
+			/**
+			 * @var $db mysqli
+			 */
 			$this->load_db();
 			$db = $this->db->get_db();
 			$token = bin2hex (openssl_random_pseudo_bytes (32)).".png";
-			$sql = 'INSERT INTO images(user,image_id) SELECT user AS user,? AS image_id FROM access WHERE auth_token=?;';
+			$sql = 'INSERT INTO images(user,image_id,placeholder) SELECT user AS user,? AS image_id,placeholder as ? FROM access WHERE auth_token=?;';
 			$statement = $db->prepare($sql);
-			$statement->bind_param('ss', $token,$auth_token);
+			$statement->bind_param('sss', $token,$auth_token,$placeholder);
 			if($statement->execute()){
 				set_status_header(200);
 				$response['status'] = 'Success';
@@ -119,6 +127,9 @@ SQL;
 			return $response;
 		}
 		public function delete_image($auth_token,$image_id){
+			/**
+			 * @var $db mysqli
+			 */
 			$sql = 'DELETE FROM images WHERE image_id = ? AND user IN(SELECT user FROM access WHERE auth_token=?)';
 			$this->load_db();
 			$db = $this->db->get_db();
@@ -155,6 +166,9 @@ SQL;
 			if(strlen($REQUEST_URI)!=0){
 				return $this->image_properties($auth_token,$REQUEST_URI);
 			}
+			/**
+			 * @var $db mysqli
+			 */
 			$this->load_db();
 			$db = $this->db->get_db();
 			$sql = "SELECT image_id as image FROM images WHERE user IN(SELECT user FROM access WHERE auth_token =?);";
