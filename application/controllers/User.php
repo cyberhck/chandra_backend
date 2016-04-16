@@ -30,4 +30,10 @@
 			set_status_header(200);
 			$this->json_out($result);
 		}
+		public function test(){
+			require_once ('application/helpers/sms/textlocal.class.php');
+			$text_local = new Textlocal(null,null,"txIVgKKOAOE-H0L8z3VKeKRqB8jYYgufOcpoilHQ4f");
+			$result = $text_local->sendSms(["7411336384"],"test message","TXTLCL");
+			var_dump($result);
+		}
 	}

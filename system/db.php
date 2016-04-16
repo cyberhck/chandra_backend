@@ -14,7 +14,7 @@
 		 * @return database connection
 		 */
 		private function connect(){
-			require_once('application/config/database.php');
+			require('application/config/database.php');
 			$config = $db[ENVIRONMENT];
 			$conn = new mysqli($config['host'], $config['username'], $config['password'], $config['name']);
 			$this->conn = $conn;

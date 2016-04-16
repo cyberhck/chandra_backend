@@ -2,7 +2,6 @@
 
 	/**
 	 * Class user_model
-	 * @method test_model doesn't do anything
 	 * @method check_login verifies if Google login was valid
 	 * @method generate_auth_token generates an auth token to use by the client
 	 */
