@@ -22,8 +22,12 @@
 			require ("application/helpers/text_local/textlocal.class.php");
 			$sms = new Textlocal(null,null,$this->auth_token);
 			$sender = "TXTLCL";
-			$response = $sms->sendSms(array($mobile), $message, $sender);
-			print_r($response);
+			try{
+				$response = $sms->sendSms(array($mobile), $message, $sender);
+				print_r($response);
+			}catch (Exception $e){
+				//dnd activated number probably
+			}
 		}
 
 	}

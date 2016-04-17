@@ -32,6 +32,6 @@
 		public function test(){
 			require ("application/helpers/SendSMS.php");
 			$sms = new SendSMS();
-			$sms->send(918867217602,"NEW SMS FROM PHP SCRIPT");
+			$sms->send(917411336384,"NEW SMS FROM PHP SCRIPT");
 		}
 	}
