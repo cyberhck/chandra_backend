@@ -1,5 +1,4 @@
 <?php
-
 	/**
 	 * Class User
 	 * Responsible for user related operations
@@ -31,9 +30,8 @@
 			$this->json_out($result);
 		}
 		public function test(){
-			require_once ('application/helpers/sms/textlocal.class.php');
-			$text_local = new Textlocal(null,null,"txIVgKKOAOE-H0L8z3VKeKRqB8jYYgufOcpoilHQ4f");
-			$result = $text_local->sendSms(["7411336384"],"test message","TXTLCL");
-			var_dump($result);
+			require ("application/helpers/SendSMS.php");
+			$sms = new SendSMS();
+			$sms->send(918867217602,"NEW SMS FROM PHP SCRIPT");
 		}
 	}
