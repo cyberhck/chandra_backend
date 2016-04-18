@@ -170,7 +170,7 @@ SQL;
 			 */
 			$this->load_db();
 			$db = $this->db->get_db();
-			$sql = "SELECT image_id as image FROM images WHERE user IN(SELECT user FROM access WHERE auth_token =?);";
+			$sql = "SELECT image_id as image,placeholder,delivery_status as `status` FROM images WHERE user IN(SELECT user FROM access WHERE auth_token =?);";
 			$statement = $db->prepare($sql);
 			$statement->bind_param('s',$auth_token);
 			$statement->execute();
