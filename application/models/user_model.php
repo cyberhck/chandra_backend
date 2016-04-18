@@ -193,7 +193,7 @@ SQL;
 			if($statement->execute()){
 				set_status_header(200);
 				$response['status'] = 'Success';
-				$response['message'] = 'Image deleted';
+				$response['message'] = 'Phone Number Updated';
 			}else{
 				set_status_header(500);
 				$response['status'] = 'Fail';
