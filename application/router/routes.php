@@ -1,6 +1,6 @@
 <?php
 	header('Access-Control-Allow-Origin:*');
-	header('Access-Control-Allow-Headers:Content-Type');
+	header('Access-Control-Allow-Headers:Content-Type,auth-token');
 	Route::post(['/user/login'=>'User@login',
 			'/delivery/image' => 'Delivery@generate']);
 	Route::get(['/delivery/image' => 'Delivery@list_image',
