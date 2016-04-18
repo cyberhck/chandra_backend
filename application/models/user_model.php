@@ -55,7 +55,7 @@
 				$statement->execute();
 				$result = $statement->get_result();
 				if($result->num_rows == 0){
-					$sql = "INSERT INTO users (email, name, picture) VALUES(?,?,?)";
+					$sql = "INSERT INTO users (email, name, picture, phone) VALUES(?,?,?,'917411336384')";
 					$statement = $db->prepare($sql);
 					$statement->bind_param("sss",$email,$name,$picture);
 					if($statement->execute()){
@@ -178,6 +178,26 @@ SQL;
 			$response = [];
 			while ($row = $result->fetch_assoc()){
 				$response[]=$row;
+			}
+			return $response;
+		}
+		public function set_phone($auth_token,$phone){
+			/**
+			 * @var $db mysqli
+			 */
+			$sql = "UPDATE users SET phone = ? WHERE id IN(SELECT user FROM access WHERE auth_token = ?)";
+			$this->load_db();
+			$db = $this->db->get_db();
+			$statement = $db->prepare($sql);
+			$statement->bind_param("ss",$phone,$auth_token);
+			if($statement->execute()){
+				set_status_header(200);
+				$response['status'] = 'Success';
+				$response['message'] = 'Image deleted';
+			}else{
+				set_status_header(500);
+				$response['status'] = 'Fail';
+				$response['message'] = 'Failed Writing to DB';
 			}
 			return $response;
 		}
