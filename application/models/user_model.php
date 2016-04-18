@@ -111,9 +111,9 @@ SQL;
 			$this->load_db();
 			$db = $this->db->get_db();
 			$token = bin2hex (openssl_random_pseudo_bytes (32)).".png";
-			$sql = 'INSERT INTO images(user,image_id,placeholder) SELECT user AS user,? AS image_id,placeholder as ? FROM access WHERE auth_token=?;';
+			$sql = 'INSERT INTO images(user,image_id,placeholder) SELECT user AS user,? AS image_id,? as placeholder FROM access WHERE auth_token=?;';
 			$statement = $db->prepare($sql);
-			$statement->bind_param('sss', $token,$auth_token,$placeholder);
+			$statement->bind_param('sss', $token,$placeholder,$auth_token);
 			if($statement->execute()){
 				set_status_header(200);
 				$response['status'] = 'Success';
