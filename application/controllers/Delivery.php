@@ -31,10 +31,10 @@
 			}
 		}
 		public function incoming(){
-			file_put_contents('test.txt',json_encode($_POST));
+			file_put_contents('/home/ec2-user/test.txt',json_encode($_POST));
 		}
 		public function incoming_failed(){
-			file_put_contents('test_fail.txt',json_encode($_POST));
+			file_put_contents('/home/ec2-user/test_fail.txt',json_encode($_POST));
 		}
 		private function check(){
 			$this->load_model('Auth');
