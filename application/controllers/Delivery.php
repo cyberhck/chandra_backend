@@ -30,11 +30,20 @@
 				$this->json_out($response);
 			}
 		}
+		private function parse_body(){
+			$entityBody = file_get_contents('php://input');
+			return json_decode($entityBody);
+		}
 		public function incoming(){
-			file_put_contents('/home/ec2-user/test.txt',$entityBody = file_get_contents('php://input'));
+			$post = $this->parse_body();
+			$from = $post->message_data->addresses->from;
+			$to = $post->message_data->addresses->to;
+			$subject = $post->message_data->subject;
+			$this->load_model('user_model');
+			$this->user_model->notify($from,$to,$subject);
 		}
 		public function incoming_failed(){
-			file_put_contents('/home/ec2-user/test_fail.txt',$entityBody = file_get_contents('php://input'));
+			$post = $this->parse_body();
 		}
 		private function check(){
 			$this->load_model('Auth');

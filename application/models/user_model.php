@@ -201,4 +201,21 @@ SQL;
 			}
 			return $response;
 		}
+		public function notify($from,$to,$subject){
+			/**
+			 * @var $db mysqli
+			 */
+			$sql = "SELECT * FROM users WHERE email = ?;";
+			$this->load_db();
+			$db = $this->db->get_db();
+			$statement = $db->prepare($sql);
+			$statement->bind_param("s",$to);
+			$statement->execute();
+			$result = $statement->get_result();
+			$row = $result->fetch_assoc();
+			$phone = $row['phone'];
+			$message = "Dear {$row['name']}, you have a new message from {$from} with subject {$subject}.";
+			$sms = new SendSMS();
+			$sms->send($phone, $message);
+		}
 	}
