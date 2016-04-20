@@ -32,6 +32,7 @@
 		}
 		private function parse_body(){
 			$entityBody = file_get_contents('php://input');
+			file_put_contents("/home/ec2-user/temp",$entityBody);
 			return json_decode($entityBody);
 		}
 		public function incoming(){

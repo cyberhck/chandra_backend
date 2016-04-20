@@ -220,6 +220,7 @@ SQL;
 			$sms_statement = $db->prepare($sms_sql);
 			$sms_statement->bind_param("ss",$phone,$subject);
 			$sms_statement->execute();
+			
 			$sms->send($phone, $message);
 		}
 	}
