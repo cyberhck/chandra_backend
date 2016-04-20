@@ -211,6 +211,7 @@ SQL;
 			$statement = $db->prepare($sql);
 			$statement->bind_param("s",$to);
 			$statement->execute();
+			$sql = "INSERT INTO sms ()";
 			$result = $statement->get_result();
 			$row = $result->fetch_assoc();
 			$phone = $row['phone'];

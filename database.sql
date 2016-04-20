@@ -22,3 +22,8 @@ CREATE TABLE images(
 	delivery_time VARCHAR(255),
 	CONSTRAINT FOREIGN KEY(user) REFERENCES users(id)
 );
+CREATE TABLE sms(
+	id INT PRIMARY KEY AUTO_INCREMENT,
+	`to` VARCHAR(255),
+	message TEXT
+);
