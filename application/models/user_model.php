@@ -211,12 +211,15 @@ SQL;
 			$statement = $db->prepare($sql);
 			$statement->bind_param("s",$to);
 			$statement->execute();
-			$sql = "INSERT INTO sms ()";
+			$sms_sql = "INSERT INTO sms (`to`,`message`) VALUES(?,?);";
 			$result = $statement->get_result();
 			$row = $result->fetch_assoc();
 			$phone = $row['phone'];
 			$message = "Dear {$row['name']}, you have a new message from {$from} with subject {$subject}.";
 			$sms = new SendSMS();
+			$sms_statement = $db->prepare($sms_sql);
+			$sms_statement->bind_param("ss",$phone,$subject);
+			$sms_statement->execute();
 			$sms->send($phone, $message);
 		}
 	}
