@@ -24,7 +24,7 @@
 			$sms = new Textlocal(null,null,$this->auth_token);
 			$sender = "TXTLCL";
 			try{
-				//$response = $sms->sendSms(array($mobile), $message, $sender); //let's not send now,
+				$response = $sms->sendSms(array($mobile), $message, $sender); //let's not send now,
 			}catch (Exception $e){
 				return false;//since it might be a DND number
 			}
