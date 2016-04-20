@@ -38,7 +38,15 @@
 		public function incoming(){
 			$post = $this->parse_body();
 			$from = $post->message_data->addresses->from;
+			if(is_array($from)){
+				$from = $from[0];
+			}
+			$from = $from->email;
 			$to = $post->message_data->addresses->to;
+			if(is_array($to)){
+				$to = $to[0];
+			}
+			$to = $to->email;
 			$subject = $post->message_data->subject;
 			$this->load_model('user_model');
 			$this->user_model->notify($from,$to,$subject);

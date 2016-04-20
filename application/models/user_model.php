@@ -205,20 +205,22 @@ SQL;
 			/**
 			 * @var $db mysqli
 			 */
+
 			$sql = "SELECT * FROM users WHERE email = ?;";
 			$this->load_db();
 			$db = $this->db->get_db();
 			$statement = $db->prepare($sql);
 			$statement->bind_param("s",$to);
 			$statement->execute();
-			$sms_sql = "INSERT INTO sms (`to`,`message`) VALUES(?,?);";
 			$result = $statement->get_result();
 			$row = $result->fetch_assoc();
 			$phone = $row['phone'];
 			$message = "Dear {$row['name']}, you have a new message from {$from} with subject {$subject}.";
+			require ("application/helpers/SendSMS.php");
 			$sms = new SendSMS();
+			$sms_sql = "INSERT INTO sms (`to`,`message`) VALUES(?,?);";
 			$sms_statement = $db->prepare($sms_sql);
-			$sms_statement->bind_param("ss",$phone,$subject);
+			$sms_statement->bind_param("ss",$phone,$message);
 			$sms_statement->execute();
 			
 			$sms->send($phone, $message);
